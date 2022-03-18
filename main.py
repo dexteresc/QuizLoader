@@ -19,10 +19,10 @@ def enter(prompt: str) -> str:
 
 
 class Question:
-    def __init__(self, prompt: str, answers: list[str], correct_answer: list[str]):
+    def __init__(self, prompt: str, answers: list[str], correct_answers: list[str]):
         self.prompt = prompt
         self.answers = answers
-        self.correct_answer = correct_answer
+        self.correct_answers = correct_answers
 
     def print_question(self):
         print(self.prompt)
@@ -30,8 +30,8 @@ class Question:
             print(self.answers[i])
 
     def check_answer(self, answer):
-        if isinstance(self.correct_answer, list):
-            if answer in self.correct_answer:
+        if isinstance(self.correct_answers, list):
+            if answer in self.correct_answers:
                 return True
             else:
                 return False
@@ -47,7 +47,7 @@ class Chapter:
         self.max_score = 0
 
         for question in questions:
-            self.max_score += len(question.correct_answer)
+            self.max_score += len(question.correct_answers)
 
     def run(self, current: Union[int, bool] = 0):
         print("\n\n\tWelcome to Chapter {}!\n".format(self.number))
@@ -64,7 +64,7 @@ class Chapter:
             for answer in question.answers:
                 print(colored("> {}".format(answer)))
             entered_answers = re.split(" | ,", enter(
-                f'Enter your answer ({len(question.correct_answer)})').lower().strip())
+                f'Enter your answer ({len(question.correct_answers)})').lower().strip())
             for answer in entered_answers:
                 if question.check_answer(answer):
                     self.result.append([question, answer, True])
@@ -85,8 +85,8 @@ class Chapter:
 
 class Quiz:
 
-    def __init__(self, chapters: list[Chapter], quiz_taker: str):
-        self.quiz_taker = colored(quiz_taker, "blue", attrs=["bold"])
+    def __init__(self, chapters: list[Chapter]):
+        self.quiz_taker = ""
         self.chapters = chapters
         self.current_chapter = 0
         self.current_question = 0
@@ -94,6 +94,9 @@ class Quiz:
 
     def run(self):
         atexit.register(quiz.save)
+        if not self.quiz_taker:
+            print(colored("What's your name?", "blue"))
+            self.quiz_taker = colored(enter("Name"), "blue")
         print(
             f"\n\n\tWelcome {self.quiz_taker} to the quiz! \n\tYour score is saved upon exit.\n\n")
 
@@ -234,6 +237,31 @@ def retrieveChapters():
         exit(1)
 
 
+def searchQuestion(chapters: list[Chapter], question_prompt: str):
+    found_questions = []
+    print(colored("Searching for: {}".format(
+        colored(question_prompt, "magenta")), "blue"))
+    for chapter in chapters:
+        for question in chapter.questions:
+            if question_prompt.lower() in question.prompt.lower():
+                found_questions.append({
+                    "chapter": chapter.number,
+                    "question": question
+                })
+    if len(found_questions) == 0:
+        print(colored("No questions found!", "red"))
+    else:
+        print(colored("Found {} questions:".format(len(found_questions)), "green"))
+        for question in found_questions:
+            print(colored(f"\nChapter {question['chapter']}", "green"))
+            print(colored(f"{question['question'].prompt}", "blue"))
+            for answer in question["question"].answers:
+                print(colored(f"\t{answer}", "yellow"))
+            print(colored(f'Correct answers: {" ".join(question["question"].correct_answers)}', "green"))
+        print
+    return found_questions
+
+
 if __name__ == "__main__":
     if "--reset" in sys.argv:
         os.path.exists("quiz.p") and os.remove("quiz.p")
@@ -242,11 +270,14 @@ if __name__ == "__main__":
         chapters = getChapters("questions.txt")
 
     quiz = getSave()
-
     if not quiz:
         chapters = retrieveChapters()
-        print(colored("What's your name?", "blue"))
-        name = enter("Name")
-        quiz = Quiz(chapters, name or "John Doe")
-
+        quiz = Quiz(chapters)
+    if "--search" in sys.argv or "-S" in sys.argv and len(sys.argv) > 2:
+        if len(sys.argv) > 3:
+            print(colored("\n\n\tCan't run search with multiple arguments", "red"))
+            exit(1)
+        else:
+            searchQuestion(quiz.chapters, sys.argv[2])
+            exit(0)
     quiz.run()
