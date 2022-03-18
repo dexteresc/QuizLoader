@@ -1,0 +1,760 @@
+Chapter 1 
+1. Which of the following protocols are examples of TCP/IP transport layer protocols? (Choose two answers.)
+a. Ethernet
+b. HTTP
+c. IP
+D. UDP
+e. SMTP
+F. TCP
+
+2. Which of the following protocols are examples of TCP/IP data-link layer protocols? (Choose two answers.)
+A. Ethernet
+b. HTTP
+c. IP
+d. UDP
+e. SMTP
+f. TCP
+G. PPP
+
+3. The process of HTTP asking TCP to send some data and making sure that it is received correctly is an example of what?
+a. Same-layer interaction
+B. Adjacent-layer interaction
+c. OSI model
+d. All of these answers are correct.
+
+4. The process of TCP on one computer marking a TCP segment as segment 1, and the receiving computer then acknowledging the receipt of TCP segment 1 is an example of what?
+a. Data encapsulation
+B. Same-layer interaction
+c. Adjacent-layer interaction
+d. OSI model
+e. All of these answers are correct.
+
+5. The process of a web server adding a TCP header to the contents of a web page, followed by adding an IP header and then adding a data-link header and trailer, is an example of what?
+A. Data encapsulation
+b. Same-layer interaction
+c. OSI model
+d. All of these answers are correct.
+
+6. Which of the following terms is used specifically to identify the entity created when encapsulating data inside data-link layer headers and trailers?
+a. Data
+b. Chunk
+c. Segment
+D. Frame
+e. Packet
+
+7. Which OSI encapsulation term can be used instead of the term frame?
+a. Layer 1 PDU
+B. Layer 2 PDU
+c. Layer 3 PDU
+d. Layer 5 PDU
+e. Layer 7 PDU
+
+Chapter 2
+
+1. In the LAN for a small office, some user devices connect to the LAN using a cable, while others connect using wireless technology (and no cable). Which of the following is true regarding the use of Ethernet in this LAN?
+A. Only the devices that use cables are using Ethernet.
+b. Only the devices that use wireless are using Ethernet.
+c. Both the devices using cables and those using wireless are using Ethernet.
+d. None of the devices are using Ethernet.
+
+2. Which of the following Ethernet standards defines Gigabit Ethernet over UTP cabling?
+a. 10GBASE-T
+b. 100BASE-T
+C. 1000BASE-T
+d. None of the other answers is correct.
+
+3. Which of the following is true about Ethernet crossover cables for Fast Ethernet?
+a. Pins 1 and 2 are reversed on the other end of the cable.
+B. Pins 1 and 2 on one end of the cable connect to pins 3 and 6 on the other end of the cable.
+c. Pins 1 and 2 on one end of the cable connect to pins 3 and 4 on the other end of the cable.
+d. The cable can be up to 1000 meters long to cross over between buildings.
+e. None of the other answers is correct.
+
+4. Each answer lists two types of devices used in a 100BASE-T network. If these devices were connected with UTP Ethernet cables, which pairs of devices would require a straight-through cable? (Choose three answers.)
+a. PC and router
+B. PC and switch
+c. Hub and switch
+D. Router and hub
+E. Wireless access point (Ethernet port) and switch
+
+5. Which of the following are advantages of using multimode fiber for an Ethernet link instead of UTP or single-mode fiber?
+a. To achieve the longest distance possible for that single link.
+B. To extend the link beyond 100 meters while keeping initial costs as low as possible.
+c. To make use of an existing stock of laser-based SFP/SFP+ modules.
+d. To make use of an existing stock of LED-based SFP/SFP+ modules.
+
+6. Which of the following is true about the CSMA/CD algorithm?
+a. The algorithm never allows collisions to occur.
+B. Collisions can happen, but the algorithm defines how the computers should notice a collision and how to recover.
+c. The algorithm works with only two devices on the same Ethernet.
+d. None of the other answers is correct.
+7. Which of the following is true about the Ethernet FCS field?
+a. Ethernet uses FCS for error recovery.
+b. It is 2 bytes long.
+C. It resides in the Ethernet trailer, not the Ethernet header.
+d. It is used for encryption.
+
+8. Which of the following are true about the format of Ethernet addresses? (Choose three answers.)
+a. Each manufacturer puts a unique OUI code into the first 2 bytes of the address.
+B. Each manufacturer puts a unique OUI code into the first 3 bytes of the address.
+C. Each manufacturer puts a unique OUI code into the first half of the address.
+d. The part of the address that holds this manufacturer’s code is called the MAC.
+E. The part of the address that holds this manufacturer’s code is called the OUI.
+f. The part of the address that holds this manufacturer’s code has no specific name.
+
+9. Which of the following terms describe Ethernet addresses that can be used to send one frame that is delivered to multiple devices on the LAN? (Choose two answers.)
+a. Burned-in address
+b. Unicast address
+C. Broadcast address
+D. Multicast address
+
+Chapter 3
+1. Which of the following fields in the HDLC header used by Cisco routers does Cisco add, beyond the ISO standard HDLC?
+a. Flag
+B. Type
+c. Address
+d. FCS
+
+2. Two routers, R1 and R2, connect using an Ethernet over MPLS service. The service provides point-to-point service between these two routers only, as a Layer 2 Ethernet service. Which of the following are the most likely to be true about this WAN? (Choose two answers.)
+a. R1 will connect to a physical Ethernet link, with the other end of the cable connected to R2.
+B. R1 will connect to a physical Ethernet link, with the other end of the cable connected to a device at the WAN service provider point of presence.
+c. R1 will forward data-link frames to R2 using an HDLC header/trailer.
+d. R1 will forward data-link frames to R2 using an Ethernet header/trailer.
+
+3. Imagine a network with two routers that are connected with a point-to-point HDLC serial link. Each router has an Ethernet, with PC1 sharing the Ethernet with Router1 and PC2 sharing the Ethernet with Router2. When PC1 sends data to PC2, which of the following is true?
+A. Router1 strips the Ethernet header and trailer off the frame received from PC1, never to be used again.
+b. Router1 encapsulates the Ethernet frame inside an HDLC header and sends the frame to Router2, which extracts the Ethernet frame for forwarding to PC2.
+c. Router1 strips the Ethernet header and trailer off the frame received from PC1, which is exactly re-created by Router2 before forwarding data to PC2.
+d. Router1 removes the Ethernet, IP, and TCP headers and rebuilds the appropriate headers before forwarding the packet to Router2.
+
+4. Which of the following does a router normally use when making a decision about routing TCP/IP packets?
+a. Destination MAC address
+b. Source MAC address
+C. Destination IP address
+d. Source IP address
+e. Destination MAC and IP addresses
+
+5. Which of the following are true about a LAN-connected TCP/IP host and its IP routing (forwarding) choices?
+a. The host always sends packets to its default gateway.
+b. The host never sends packets to its default gateway.
+C. The host sends packets to its default gateway if the destination IP address is in a different subnet than the host.
+d. The host sends packets to its default gateway if the destination IP address is in the same subnet as the host.
+
+6. Which of the following are functions of a routing protocol? (Choose two answers.)
+A. Advertising known routes to neighboring routers
+b. Learning routes for subnets directly connected to the router
+c. Learning routes and putting those routes into the routing table for routes advertised to the router by its neighboring routers
+d. Forwarding IP packets based on a packet’s destination IP address
+
+7. A company implements a TCP/IP network, with PC1 sitting on an Ethernet LAN. Which of the following protocols and features requires PC1 to learn information from some other server device?
+a. ARP
+b. ping
+C. DNS
+d. None of these answers is correct.
+
+Chapter 4
+
+1. In what modes can you type the command show mac address-table and expect to get a response with MAC table entries? (Choose two answers.)
+A. User mode
+B. Enable mode
+c. Global configuration mode
+d. Interface configuration mode
+
+2. In which of the following modes of the CLI could you type the command reload and expect the switch to reboot?
+a. User mode
+B. Enable mode
+c. Global configuration mode
+d. Interface configuration mode
+
+3. Which of the following is a difference between Telnet and SSH as supported by a Cisco switch?
+a. SSH encrypts the passwords used at login, but not other traffic; Telnet encrypts nothing.
+B. SSH encrypts all data exchange, including login passwords; Telnet encrypts nothing.
+c. Telnet is used from Microsoft operating systems, and SSH is used from UNIX and Linux operating systems.
+d. Telnet encrypts only password exchanges; SSH encrypts all data exchanges.
+
+4. What type of switch memory is used to store the configuration used by the switch when it is up and working?
+A. RAM
+b. ROM
+c. Flash
+d. NVRAM
+e. Bubble
+
+5. What command copies the configuration from RAM into NVRAM?
+a. copy running-config tftp
+b. copy tftp running-config
+c. copy running-config start-up-config
+d. copy start-up-config running-config
+e. copy startup-config running-config
+F. copy running-config startup-config
+
+6. A switch user is currently in console line configuration mode. Which of the following would place the user in enable mode? (Choose two answers.)
+a. Using the exit command once
+B. Using the end command once
+C. Pressing the Ctrl+Z key sequence once
+d. Using the quit command
+
+Chapter 5
+
+1. Which of the following statements describes part of the process of how a switch decides to forward a frame destined for a known unicast MAC address?
+A. It compares the unicast destination address to the bridging, or MAC address, table.
+b. It compares the unicast source address to the bridging, or MAC address, table.
+c. It forwards the frame out all interfaces in the same VLAN except for the incoming interface.
+d. It compares the destination IP address to the destination MAC address.
+e. It compares the frame’s incoming interface to the source MAC entry in the MAC address table.
+
+2. Which of the following statements describes part of the process of how a LAN switch decides to forward a frame destined for a broadcast MAC address?
+a. It compares the unicast destination address to the bridging, or MAC address, table.
+b. It compares the unicast source address to the bridging, or MAC address, table.
+C. It forwards the frame out all interfaces in the same VLAN except for the incoming interface.
+d. It compares the destination IP address to the destination MAC address.
+e. It compares the frame’s incoming interface to the source MAC entry in the MAC address table.
+
+3. Which of the following statements best describes what a switch does with a frame destined for an unknown unicast address?
+A. It forwards out all interfaces in the same VLAN except for the incoming interface.
+b. It forwards the frame out the one interface identified by the matching entry in the MAC address table.
+c. It compares the destination IP address to the destination MAC address.
+d. It compares the frame’s incoming interface to the source MAC entry in the MAC address table.
+
+4. Which of the following comparisons does a switch make when deciding whether a new MAC address should be added to its MAC address table?
+a. It compares the unicast destination address to the bridging, or MAC address, table.
+B. It compares the unicast source address to the bridging, or MAC address, table.
+c. It compares the VLAN ID to the bridging, or MAC address, table.
+d. It compares the destination IP address’s ARP cache entry to the bridging, or MAC address, table.
+
+5. A Cisco Catalyst switch has 24 10/100 ports, numbered 0/1 through 0/24. Ten PCs connect to the 10 lowest numbered ports, with those PCs working and sending data over the network. The other ports are not connected to any device. Which of the following answers lists facts displayed by the show interfaces status command?
+a. Port Ethernet 0/1 is in a connected state.
+b. Port Fast Ethernet 0/11 is in a connected state.
+C. Port Fast Ethernet 0/5 is in a connected state.
+d. Port Ethernet 0/15 is in a notconnected state.
+6. Consider the following output from a Cisco Catalyst switch:
+SW1# show mac address-table dynamic
+Mac Address Table
+-------------------------------------------
+Vlan Mac Address Type Ports
+---- ----------- -------- -----
+1 02AA.AAAA.AAAA DYNAMIC Gi0/1
+1 02BB.BBBB.BBBB DYNAMIC Gi0/2
+1 02CC.CCCC.CCCC DYNAMIC Gi0/3
+Total Mac Addresses for this criterion: 3
+Which of the following answers is true about this switch?
+a. The output proves that port Gi0/2 connects directly to a device that uses address 02BB.BBBB.BBBB.
+b. The switch has learned three MAC addresses since the switch powered on.
+c. The three listed MAC addresses were learned based on the destination MAC address of frames forwarded by the switch.
+D. 02CC.CCCC.CCCC was learned from the source MAC address of a frame that entered port Gi0/3.
+
+Chapter 6
+
+1. Imagine that you have configured the enable secret command, followed by the enable password command, from the console. You log out of the switch and log back in at the console. Which command defines the password that you had to enter to access privileged mode?
+a. enable password
+B. enable secret
+c. Neither
+d. The password command, if it is configured
+
+2. An engineer wants to set up simple password protection with no usernames for some switches in a lab, for the purpose of keeping curious coworkers from logging in to the lab switches from their desktop PCs. Which of the following commands would be a useful part of that configuration?
+A. A login vty mode subcommand
+b. A password password console subcommand
+c. A login local vty subcommand
+d. A transport input ssh vty subcommand
+
+3. An engineer had formerly configured a Cisco 2960 switch to allow Telnet access so that the switch expected a password of mypassword from the Telnet user. The engineer then changed the configuration to support Secure Shell. Which of the following commands could have been part of the new configuration? (Choose two answers.)
+a. A username name secret password vty mode subcommand
+B. A username name secret password global configuration command
+C. A login local vty mode subcommand
+d. A transport input ssh global configuration command
+
+4. An engineer’s desktop PC connects to a switch at the main site. A router at the main site connects to each branch office through a serial link, with one small router and switch at each branch. Which of the following commands must be configured on the branch office switches, in the listed configuration mode, to allow the engineer to telnet to the branch office switches and supply only a password to login? (Choose three answers.)
+A. The ip address command in interface configuration mode
+b. The ip address command in global configuration mode
+c. The ip default-gateway command in VLAN configuration mode
+D. The ip default-gateway command in global configuration mode
+e. The password command in console line configuration mode
+F. The password command in vty line configuration mode
+
+5. A Layer 2 switch configuration places all its physical ports into VLAN 2. The IP addressing plan shows that address 172.16.2.250 (with mask 255.255.255.0) is reserved for use by this new LAN switch and that 172.16.2.254 is already configured on the router connected to that same VLAN. The switch needs to support SSH connections into the switch from any subnet in the network. Which of the following commands are part of the required configuration in this case? (Choose two answers.)
+a. The ip address 172.16.2.250 255.255.255.0 command in interface vlan 1 configuration mode.
+B. The ip address 172.16.2.250 255.255.255.0 command in interface vlan 2 configuration mode.
+C. The ip default-gateway 172.16.2.254 command in global configuration mode.
+d. The switch cannot support SSH because all its ports connect to VLAN 2, and the IP address must be configured on interface VLAN 1.
+
+6. Which of the following line subcommands tells a switch to wait until a show command’s output has completed before displaying log messages on the screen?
+A. logging synchronous
+b. no ip domain-lookup
+c. exec-timeout 0 0
+d. history size 15
+
+Chapter 7
+
+1. Which of the following describes a way to disable IEEE standard autonegotiation on a 10/100 port on a Cisco switch?
+a. Configure the negotiate disable interface subcommand
+b. Configure the no negotiate interface subcommand
+c. Configure the speed 100 interface subcommand
+d. Configure the duplex half interface subcommand
+e. Configure the duplex full interface subcommand
+F. Configure the speed 100 and duplex full interface subcommands
+
+2. In which of the following modes of the CLI could you configure the duplex setting for interface Fast Ethernet 0/5?
+a. User mode
+b. Enable mode
+c. Global configuration mode
+d. VLAN mode
+E. Interface configuration mode
+
+3. A Cisco Catalyst switch connects with its Gigabit0/1 port to an end user’s PC. The end user, thinking the user is helping, manually sets the PC’s OS to use a speed of 1000 Mbps and to use full duplex, and disables the use of autonegotiation. The switch’s G0/1 port has default settings for speed and duplex. What speed and duplex settings will the switch decide to use? (Choose two answers.)
+A. Full duplex
+b. Half duplex
+c. 10 Mbps
+D. 1000 Mbps
+
+4. The output of the show interfaces status command on a 2960 switch shows interface Fa0/1 in a “disabled” state. Which of the following is true about interface Fa0/1? (Choose three answers.)
+A. The interface is configured with the shutdown command.
+B. The show interfaces fa0/1 command will list the interface with two status codes of administratively down and line protocol down.
+c. The show interfaces fa0/1 command will list the interface with two status codes of up and down.
+D. The interface cannot currently be used to forward frames.
+e. The interface can currently be used to forward frames.
+
+5. Switch SW1 uses its Gigabit 0/1 interface to connect to switch SW2’s Gigabit 0/2 interface. SW2’s Gi0/2 interface is configured with the speed 1000 and duplex full commands. SW1 uses all defaults for interface configuration commands on its Gi0/1 interface. Which of the following are true about the link after it comes up? (Choose two answers.)
+A. The link works at 1000 Mbps (1 Gbps).
+b. SW1 attempts to run at 10 Mbps because SW2 has effectively disabled IEEE standard autonegotiation.
+c. The link runs at 1 Gbps, but SW1 uses half duplex and SW2 uses full duplex.
+D. Both switches use full duplex.
+
+6. Switch SW1 connects via a cable to switch SW2’s G0/1 port. Which of the following conditions is the most likely to cause SW1’s late collision counter to continue to increment?
+a. SW2’s G0/1 has been configured with a shutdown interface subcommand.
+b. The two switches have been configured with different values on the speed interface subcommand.
+c. A duplex mismatch exists with SW1 set to full duplex.
+D. A duplex mismatch exists with SW1 set to half duplex.
+
+Chapter 8
+
+1. In a LAN, which of the following terms best equates to the term VLAN?
+a. Collision domain
+B. Broadcast domain
+c. Subnet
+d. Single switch
+e. Trunk
+
+2. Imagine a switch with three configured VLANs. How many IP subnets are required, assuming that all hosts in all VLANs want to use TCP/IP?
+a. 0
+b. 1
+c. 2
+D. 3
+e. You cannot tell from the information provided.
+3. Switch SW1 sends a frame to switch SW2 using 802.1Q trunking. Which of the answers describes how SW1 changes or adds to the Ethernet frame before forwarding the frame to SW2?
+a. Inserts a 4-byte header and does change the MAC addresses
+B. Inserts a 4-byte header and does not change the MAC addresses
+c. Encapsulates the original frame behind an entirely new Ethernet header
+d. None of the other answers are correct
+
+4. Imagine that you are told that switch 1 is configured with the dynamic auto parameter for trunking on its Fa0/5 interface, which is connected to switch 2. You have to configure switch 2. Which of the following settings for trunking could allow trunking to work? (Choose two answers.)
+A. on
+b. dynamic auto
+C. dynamic desirable
+d. access
+e. None of the other answers are correct.
+5. A switch has just arrived from Cisco. The switch has never been configured with any VLANs, but VTP has been disabled. An engineer configures the vlan 22 and name Hannahs-VLAN commands and then exits configuration mode. Which of the following are true? (Choose two answers.)
+A. VLAN 22 is listed in the output of the show vlan brief command.
+B. VLAN 22 is listed in the output of the show running-config command.
+c. VLAN 22 is not created by this process.
+d. VLAN 22 does not exist in that switch until at least one interface is assigned to that VLAN.
+6. Which of the following commands identify switch interfaces as being trunking interfaces: interfaces that currently operate as VLAN trunks? (Choose two answers.)
+a. show interfaces
+B. show interfaces switchport
+C. show interfaces trunk
+d. show trunks
+7. In a switch that disables VTP, an engineer configures the commands vlan 30 and shutdown vlan 30. Which answers should be true about this switch? (Choose two answers.)
+A. The show vlan brief command should list VLAN 30.
+B. The show running-config command should list VLAN 30.
+c. The switch should forward frames that arrive in access ports in VLAN 30.
+d. The switch should forward frames that arrive in trunk ports tagged with VLAN 30.
+8. The show interfaces g0/1 trunk command provides three lists of VLAN IDs. Which items would limit the VLANs that appear in the first of the three lists of VLANs?
+a. A shutdown vlan 30 global command
+B. A switchport trunk allowed vlan interface subcommand
+c. An STP choice to block on G0/1
+d. A no vlan 30 global command
+
+Chapter 9
+1. Which of the following port states are stable states used when STP has completed convergence? (Choose two answers.)
+A. Blocking
+B. Forwarding
+c. Listening
+d. Learning
+e. Discarding
+2. Which of the following bridge IDs wins election as root, assuming that the switches with these bridge IDs are in the same network?
+a. 32769:0200.1111.1111
+b. 32769:0200.2222.2222
+C. 4097:0200.1111.1111
+d. 4097:0200.2222.2222
+e. 40961:0200.1111.1111
+3. Which of the following are transitory port states used only during the process of STP convergence? (Choose two answers.)
+a. Blocking
+b. Forwarding
+C. Listening
+D. Learning
+e. Discarding
+4. Which of the following facts determines how often a nonroot bridge or switch sends an STP Hello BPDU message?
+a. The Hello timer as configured on that switch.
+B. The Hello timer as configured on the root switch.
+c. It is always every 2 seconds.
+d. The switch reacts to BPDUs received from the root switch by sending another BPDU 2 seconds after receiving the root BPDU.
+
+5. Which of the following RSTP port states have the same name and purpose as a port state in traditional STP? (Choose two answers.)
+a. Blocking
+B. Forwarding
+c. Listening
+D. Learning
+e. Discarding
+6. RSTP adds features beyond STP that enable ports to be used for a role if another port on the same switch fails. Which of the following statements correctly describe a port role that is waiting to take over for another port role? (Choose two answers.)
+A. An alternate port waits to become a root port.
+b. A backup port waits to become a root port.
+c. An alternate port waits to become a designated port.
+D. A backup port waits to become a designated port.
+7. What STP feature causes an interface to be placed in the forwarding state as soon as the interface is physically active?
+a. STP
+b. EtherChannel
+c. Root Guard
+D. PortFast
+
+Chapter 10
+1. Which type value on the spanning-tree mode type global command enables the use of RSTP?
+A. rapid-pvst
+b. pvst
+c. rstp
+d. rpvst
+2. Examine the following output from the show spanning-tree vlan 5 command, which describes a root switch in a LAN. Which answers accurately describe facts related to the root’s bridge ID?
+SW1# show spanning-tree vlan 5
+VLAN0005
+Spanning tree enabled protocol rstp
+Root ID Priority 32773
+Address 1833.9d7b.0e80
+Cost 15
+Port 25 (GigabitEthernet0/1)
+Hello Time 2 sec Max Age 20 sec Forward Delay 15 sec
+A. The system ID extension value, in decimal, is 5.
+b. The root’s configured priority value is 32773.
+C. The root’s configured priority value is 32768.
+d. The system ID extension value, in hexadecimal, is 1833.9d7b.0e80.
+
+3. With the Cisco RPVST+, which of the following action(s) does a switch take to identify
+which VLAN is described by a BPDU? (Choose three answers.)
+A. Adds a VLAN tag when forwarding a BPDU on trunks
+B. Adds the VLAN ID in an extra TLV in the BPDU
+c. Lists the VLAN ID as the middle 12 bits of the System ID field of the BPDU
+D. Lists the VLAN ID in the System ID Extension field of the BPDU
+
+4. An engineer configures a switch to put interfaces G0/1 and G0/2 into the same Layer 2 EtherChannel. Which of the following terms is used in the configuration commands?
+a. EtherChannel
+b. PortChannel
+c. Ethernet-Channel
+D. Channel-group
+
+5. Which combinations of keywords on the channel-group interface subcommand on two neighboring switches will cause the switches to use LACP and attempt to add the link to the EtherChannel? (Choose two answers.)
+a. desirable and active
+B. passive and active
+c. active and auto
+D. active and active
+
+6. A Cisco Catalyst switch needs to send frames over a Layer 2 EtherChannel. Which answer best describes how the switch balances the traffic over the four active links in the channel?
+a. Breaks each frame into fragments of approximately one-fourth of the original frame, sending one fragment over each link
+b. Sends the entire frame over one link, alternating links in sequence for each successive frame
+C. Sends the entire frame over one link, choosing the link by applying some math to fields in each frame’s headers
+d. Sends the entire frame over one link, using the link with the lowest percent utilization as the next link to use
+
+Chapter 11
+
+1. Host A is a PC, connected to switch SW1 and assigned to VLAN 1. Which of the following are typically assigned an IP address in the same subnet as host A? (Choose two answers.)
+a. The local router’s WAN interface
+B. The local router’s LAN interface
+c. All other hosts attached to the same switch
+D. Other hosts attached to the same switch and also in VLAN 1
+
+2. Why does the formula for the number of hosts per subnet (2H – 2) require the subtraction of two hosts?
+a. To reserve two addresses for redundant default gateways (routers)
+b. To reserve the two addresses required for DHCP operation
+c. To reserve addresses for the subnet ID and default gateway (router)
+D. To reserve addresses for the subnet broadcast address and subnet ID
+
+3. A Class B network needs to be subnetted such that it supports 100 subnets and 100 hosts/subnet. Which of the following answers list a workable combination for the number of network, subnet, and host bits? (Choose two answers.)
+a. Network = 16, subnet = 7, host = 7
+B. Network = 16, subnet = 8, host = 8
+C. Network = 16, subnet = 9, host = 7
+d. Network = 8, subnet = 7, host = 17
+
+4. Which of the following are private IP networks? (Choose two answers.)
+A. 172.31.0.0
+b. 172.32.0.0
+C. 192.168.255.0
+d. 192.1.168.0
+e. 11.0.0.0
+
+5. Which of the following are public IP networks? (Choose three answers.)
+A. 9.0.0.0
+b. 172.30.0.0
+c. 192.168.255.0
+D. 192.1.168.0
+E. 1.0.0.0
+
+6. Before Class B network 172.16.0.0 is subnetted by a network engineer, what parts of the structure of the IP addresses in this network already exist, with a specific size? (Choose two answers.)
+A. Network
+b. Subnet
+C. Host
+d. Broadcast
+
+7. A network engineer spends time thinking about the entire Class B network 172.16.0.0 and how to subnet that network. He then chooses how to subnet this Class B network and creates an addressing and subnetting plan, on paper, showing his choices. If you compare his thoughts about this network before subnetting the network to his thoughts about this network after mentally subnetting the network, which of the following occurred to the parts of the structure of addresses in this network?
+a. The subnet part got smaller.
+B. The host part got smaller.
+c. The network part got smaller.
+d. The host part was removed.
+e. The network part was removed.
+
+Chapter 12
+
+1. Which of the following are not valid Class A network IDs? (Choose two answers.)
+a. 1.0.0.0
+B. 130.0.0.0
+C. 127.0.0.0
+d. 9.0.0.0
+
+2. Which of the following are not valid Class B network IDs?
+a. 130.0.0.0
+b. 191.255.0.0
+c. 128.0.0.0
+d. 150.255.0.0
+E. All are valid Class B network IDs.
+
+
+3. Which of the following are true about IP address 172.16.99.45’s IP network? (Choose two answers.)
+a. The network ID is 172.0.0.0.
+B. The network is a Class B network.
+c. The default mask for the network is 255.255.255.0.
+D. The number of host bits in the unsubnetted network is 16.
+4. Which of the following are true about IP address 192.168.6.7’s IP network? (Choose
+two answers.)
+A. The network ID is 192.168.6.0.
+b. The network is a Class B network.
+C. The default mask for the network is 255.255.255.0.
+d. The number of host bits in the unsubnetted network is 16.
+5. Which of the following is a network broadcast address?
+a. 10.1.255.255
+b. 192.168.255.1
+c. 224.1.1.255
+D. 172.30.255.255
+
+Chapter 13
+1. Which of the following answers lists the prefix (CIDR) format equivalent of
+255.255.254.0?
+a. /19
+b. /20
+C. /23
+d. /24
+e. /25
+2. Which of the following answers lists the prefix (CIDR) format equivalent of
+255.255.255.240?
+a. /26
+B. /28
+c. /27
+d. /30
+e. /29
+3. Which of the following answers lists the dotted-decimal notation (DDN) equivalent
+of /30?
+a. 255.255.255.192
+B. 255.255.255.252
+c. 255.255.255.240
+d. 255.255.254.0
+e. 255.255.255.0
+4. Working at the help desk, you receive a call and learn a user’s PC IP address and mask
+(10.55.66.77, mask 255.255.255.0). When thinking about this using classful logic, you
+determine the number of network (N), subnet (S), and host (H) bits. Which of the following
+is true in this case?
+a. N=12
+b. S=12
+C. H=8
+d. S=8
+e. N=24
+
+5. Working at the help desk, you receive a call and learn a user’s PC IP address and mask
+(192.168.9.1/27). When thinking about this using classful logic, you determine the
+number of network (N), subnet (S), and host (H) bits. Which of the following is true in
+this case?
+A. N=24
+b. S=24
+c. H=8
+d. H=7
+6. Which of the following statements is true about classless IP addressing concepts?
+a. Uses a 128-bit IP address
+b. Applies only for Class A and B networks
+c. Separates IP addresses into network, subnet, and host parts
+D. Ignores Class A, B, and C network rules
+7. Which of the following masks, when used as the only mask within a Class B network,
+would supply enough subnet bits to support 100 subnets? (Choose two.)
+A. /24
+B. 255.255.255.252
+c. /20
+d. 255.255.252.0
+
+Chapter 14
+1. When you think about an IP address using classful addressing rules, an address can have
+three parts: network, subnet, and host. If you examined all the addresses in one subnet,
+in binary, which of the following answers correctly states which of the three parts of the
+addresses will be equal among all addresses? (Choose the best answer.)
+a. Network part only
+b. Subnet part only
+c. Host part only
+D. Network and subnet parts
+e. Subnet and host parts
+
+2. Which of the following statements are true regarding the binary subnet ID, subnet broadcast address, and host IP address values in any single subnet? (Choose two answers.)
+a. The host part of the broadcast address is all binary 0s.
+B. The host part of the subnet ID is all binary 0s.
+c. The host part of a usable IP address can have all binary 1s.
+D. The host part of any usable IP address must not be all binary 0s.
+
+3. Which of the following is the resident subnet ID for IP address 10.7.99.133/24?
+a. 10.0.0.0
+b. 10.7.0.0
+C. 10.7.99.0
+d. 10.7.99.128
+
+4. Which of the following is the resident subnet for IP address 192.168.44.97/30?
+a. 192.168.44.0
+b. 192.168.44.64
+C. 192.168.44.96
+d. 192.168.44.128
+
+5. Which of the following is the subnet broadcast address for the subnet in which IP address 172.31.77.201/27 resides?
+a. 172.31.201.255
+b. 172.31.255.255
+C. 172.31.77.223
+d. 172.31.77.207
+
+6. A fellow engineer tells you to configure the DHCP server to lease the last 100 usable IP addresses in subnet 10.1.4.0/23. Which of the following IP addresses could be leased as a result of your new configuration?
+a. 10.1.4.156
+b. 10.1.4.254
+C. 10.1.5.200
+d. 10.1.7.200
+e. 10.1.255.200
+
+Chapter 15
+
+1. Which of the following installation steps are more likely required on a Cisco router, but not typically required on a Cisco switch? (Choose two answers.)
+a. Connect Ethernet cables
+B. Connect serial cables
+c. Connect to the console port
+d. Connect the power cable
+E. Turn the on/off switch to “on”
+
+2. Which of the following commands might you see associated with a router CLI, but not with a switch CLI?
+a. The show mac address-table command
+B. The show ip route command
+c. The show running-config command
+d. The show interfaces status command
+
+3. Which answers list a task that could be helpful in making a router interface G0/0 ready to route packets? (Choose two answers.)
+A. Configuring the ip address address mask command in G0/0 configuration mode
+b. Configuring the ip address address and ip mask mask commands in G0/0 configuration mode
+C. Configuring the no shutdown command in G0/0 configuration mode
+d. Setting the interface description in G0/0 configuration mode
+
+4. The output of the show ip interface brief command on R1 lists interface status codes of “down” and “down” for interface GigabitEthernet 0/0. The interface connects to a LAN switch with a UTP straight-through cable. Which of the following could be true?
+a. The shutdown command is currently configured for router interface G0/0.
+b. The shutdown command is currently configured for the switch interface on the other end of the cable.
+C. The router was never configured with an ip address command on the interface.
+d. The router was configured with the no ip address command.
+
+5. Which of the following commands do not list the IP address and mask of at least one interface? (Choose two answers.)
+a. show running-config
+b. show protocols type number
+C. show ip interface brief
+d. show interfaces
+E. show version
+
+6. Which of the following is different on the Cisco switch CLI for a Layer 2 switch as compared with the Cisco router CLI?
+a. The commands used to configure simple password checking for the console
+B. The number of IP addresses configured
+c. The configuration of the device’s hostname
+d. The configuration of an interface description
+
+Chapter 16
+
+1. Router R1 lists a route in its routing table. Which of the following answers list a fact from a route that the router uses when matching the packet’s destination address? (Choose two answers.)
+A. Mask
+b. Next-hop router
+C. Subnet ID
+d. Outgoing interface
+
+
+2. After configuring a working router interface with IP address/mask 10.1.1.100/26, which of the following routes would you expect to see in the output of the show ip route command? (Choose two answers.)
+A. A connected route for subnet 10.1.1.64 255.255.255.192
+b. A connected route for subnet 10.1.1.0 255.255.255.0
+c. A local route for host 10.1.1.100 255.255.255.192
+D. A local route for host 10.1.1.100 255.255.255.255
+e. A local route for host 10.1.1.64 255.255.255.255
+
+3. An engineer configures a static IPv4 route on Router R1. Which of the following pieces of information should not be listed as a parameter in the configuration command that creates this static IPv4 route?
+a. The destination subnet’s subnet ID
+b. The next-hop router’s IP address
+C. The next-hop router’s neighboring interface
+d. The subnet mask
+
+4. Which of the following commands correctly configures a static route?
+A. ip route 10.1.3.0 255.255.255.0 10.1.130.253
+b. ip route 10.1.3.0 serial 0
+c. ip route 10.1.3.0 /24 10.1.130.253
+d. ip route 10.1.3.0 /24 serial 0
+
+5. A network engineer configures the ip route 10.1.1.0 255.255.255.0 s0/0/0 command on a router and then issues a show ip route command from enable mode. No routes for subnet 10.1.1.0/24 appear in the output. Which of the following could be true?
+a. The ip route command has incorrect syntax and was rejected in config mode.
+B. Interface s0/0/0 is down.
+c. The router has no up/up interfaces in Class A network 10.0.0.0.
+d. The ip route command is missing a next-hop router IP address.
+
+6. A router lists the following partial output from the show ip route command. Out which interface will the router route packets destined to IP address 10.1.15.122?
+    10.0.0.0/8 is variably subnetted, 8 subnets, 5 masks
+O 10.1.15.100/32 [110/50] via 172.16.25.2, 00:00:04, GigabitEthernet0/0/0
+O 10.1.15.64/26 [110/100] via 172.16.25.129, 00:00:09, GigabitEthernet0/1/0
+O 10.1.14.0/23 [110/65] via 172.16.24.2, 00:00:04, GigabitEthernet0/2/0
+O 10.1.15.96/27 [110/65] via 172.16.24.129, 00:00:09, GigabitEthernet0/3/0
+O 0.0.0.0/0 [110/129] via 172.16.25.129, 00:00:09, GigabitEthernet0/0/0
+a. G0/0/0
+b. G0/1/0
+C. G0/2/0
+d. G0/3/0
+
+Chapter 17
+
+1. Router 1 has a Fast Ethernet interface 0/0 with IP address 10.1.1.1. The interface is connected to a switch. This connection is then migrated to use 802.1Q trunking. Which of the following commands could be part of a valid configuration for Router 1’s Fa0/0 interface? (Choose two answers.)
+A. interface fastethernet 0/0.4
+b. dot1q enable
+c. dot1q enable 4
+d. trunking enable
+e. trunking enable 4
+F. encapsulation dot1q 4
+
+2. Router R1 has a router-on-a-stick (ROAS) configuration with two subinterfaces of interface G0/1: G0/1.1 and G0/1.2. Physical interface G0/1 is currently in a down/down state. The network engineer then configures a shutdown command when in interface configuration mode for G0/1.1 and a no shutdown command when in interface configuration mode for G0/1.2. Which answers are correct about the interface state for the subinterfaces? (Choose two answers.)
+a. G0/1.1 will be in a down/down state.
+B. G0/1.2 will be in a down/down state.
+C. G0/1.1 will be in an administratively down state.
+d. G0/1.2 will be in an up/up state.
+
+3. A Layer 3 switch has been configured to route IP packets between VLANs 1, 2, and 3 using SVIs, which connect to subnets 172.20.1.0/25, 172.20.2.0/25, and 172.20.3.0/25, respectively. The engineer issues a show ip route connected command on the Layer 3 switch, listing the connected routes. Which of the following answers lists a piece of information that should be in at least one of the routes?
+a. Interface Gigabit Ethernet 0/0.3
+b. Next-hop router 172.20.2.1
+C. Interface VLAN 2
+d. Mask 255.255.255.0
+
+4. An engineer has successfully configured a Layer 3 switch with SVIs for VLANs 2 and 3. Hosts in the subnets using VLANs 2 and 3 can ping each other with the Layer 3 switch routing the packets. The next week, the network engineer receives a call that those same users can no longer ping each other. If the problem is with the Layer 3 switching function, which of the following could have caused the problem? (Choose two answers.)
+a. Six (or more) out of 10 working VLAN 2 access ports failing due to physical problems
+b. A shutdown command issued from interface VLAN 4 configuration mode
+C. VTP on the switch removing VLAN 3 from the switch’s VLAN list
+D. A shutdown command issued from VLAN 2 configuration mode
+
+5. A LAN design uses a Layer 3 EtherChannel between two switches SW1 and SW2, with port-channel interface 1 used on both switches. SW1 uses ports G0/1, G0/2, and G0/3 in the channel. Which of the following are true about SW1’s configuration to make the channel be able to route IPv4 packets correctly? (Choose two answers.)
+A. The ip address command must be on the port-channel 1 interface.
+b. The ip address command must be on interface G0/1 (lowest numbered port).
+C. The port-channel 1 interface must be configured with the no switchport command.
+d. Interface G0/1 must be configured with the routedport command.
+
+6. A LAN design uses a Layer 3 EtherChannel between two switches SW1 and SW2, with port-channel interface 1 used on both switches. SW1 uses ports G0/1 and G0/2 in the channel. However, only interface G0/1 is bundled into the channel and working. Think about the configuration settings on port G0/2 that could have existed before adding G0/2 to the EtherChannel. Which answers identify a setting that could prevent IOS from adding G0/2 to the Layer 3 EtherChannel? (Choose two answers.)
+a. A different STP cost (spanning-tree cost value)
+B. A different speed (speed value)
+C. A default setting for switchport (switchport)
+d. A different access VLAN (switchport access vlan vlan-id)
