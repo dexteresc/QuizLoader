@@ -66,10 +66,13 @@ class Chapter:
             entered_answers = re.split(" | ,", enter(
                 f'Enter your answer ({len(question.correct_answers)})').lower().strip())
             for answer in entered_answers:
+                print(entered_answers)
                 if question.check_answer(answer):
+                    print(colored("\n\nCorrect!", "green"))
                     self.result.append([question, answer, True])
                     self.score += 1
                 else:
+                    print(colored("\n\nIncorrect!", "red"))
                     self.result.append([question, answer, False])
             print(colored("\n\nYour score: {}/{}".format(self.score,
                   self.max_score), self.determine_color()))
@@ -254,10 +257,11 @@ def searchQuestion(chapters: list[Chapter], question_prompt: str):
         print(colored("Found {} questions:".format(len(found_questions)), "green"))
         for question in found_questions:
             print(colored(f"\nChapter {question['chapter']}", "green"))
-            print(colored(f"{question['question'].prompt}", "blue"))
+            print(f"{question['question'].prompt}")
             for answer in question["question"].answers:
                 print(colored(f"\t{answer}", "yellow"))
-            print(colored(f'Correct answers: {" ".join(question["question"].correct_answers)}', "green"))
+            print(colored(
+                f'Correct answers: {" ".join(question["question"].correct_answers)}', "green"))
         print
     return found_questions
 
@@ -273,11 +277,12 @@ if __name__ == "__main__":
     if not quiz:
         chapters = retrieveChapters()
         quiz = Quiz(chapters)
-    if "--search" in sys.argv or "-S" in sys.argv and len(sys.argv) > 2:
-        if len(sys.argv) > 3:
-            print(colored("\n\n\tCan't run search with multiple arguments", "red"))
+    if "--search" in sys.argv or "-S" in sys.argv:
+        if len(sys.argv) != 3:
+            print(colored("\n\n\tCan't search argument", "red"))
             exit(1)
         else:
             searchQuestion(quiz.chapters, sys.argv[2])
             exit(0)
+
     quiz.run()
