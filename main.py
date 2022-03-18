@@ -4,7 +4,7 @@ import os
 import pickle
 import re
 import sys
-from termcolor import colored, cprint
+from termcolor import colored
 
 
 def enter(prompt: str) -> str:
@@ -246,10 +246,7 @@ if __name__ == "__main__":
     if not quiz:
         chapters = retrieveChapters()
         print(colored("What's your name?", "blue"))
-        try:
-            name = input()
-        except KeyboardInterrupt:
-            exit(0)
+        name = enter("Name")
         quiz = Quiz(chapters, name or "John Doe")
 
     quiz.run()
