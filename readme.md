@@ -33,12 +33,12 @@ python3 main.py
 ## Text-file format
 
 Use this format in the text file:
-```
+
 Chapter *number*
   *number*. Question promt
   *alpha*. Answer
   *alpha*. Answer
-```
+
 The files default name is `questions.txt`.
 
 ## Command Line Arguments
