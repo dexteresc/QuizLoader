@@ -7,6 +7,8 @@ These questions and chapters are fetched from a `.txt` file in a specified forma
 ### Requires
 - **Python 3.9** or above
 
+---
+
 ```shell
 # Install necessary modules
 pip3 install InquirerPy termcolor
