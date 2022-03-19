@@ -345,7 +345,5 @@ if __name__ == "__main__":
     if "--search" == sys.argv[1] or "-S" == sys.argv[1]:
         search_questions(quiz.chapters, " ".join(sys.argv[2:]))
         sys.exit(0)
-    if "--update" in sys.argv or "-U" in sys.argv:
-        quiz.chapters = get_chapters(question_path)
 
     quiz.run()
