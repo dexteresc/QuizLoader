@@ -34,10 +34,10 @@ python3 main.py
 
 Use this format in the text file:
 
-Chapter *number*  
-  *number*. Question prompt  
-  *alpha*. Answer  
-  *alpha*. Answer  
+Chapter *n*  
+  *n*. --Question prompt text--  
+  *a-z*. --Answer text--  
+  *a-z*. --Answer--  
 
 The files default name is `questions.txt`.
 
