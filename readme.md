@@ -5,7 +5,7 @@ These questions and chapters are fetched from a `.txt` file in a specified forma
 
 ## Quickstart
 ### Requires
-- Python 3.9>
+- **Python 3.9** or above
 
 ```shell
 # Install necessary modules
