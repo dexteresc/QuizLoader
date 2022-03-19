@@ -7,7 +7,7 @@ from typing import Union
 from termcolor import colored
 from InquirerPy import prompt as prompt_inquirer
 
-show_score = True
+SHOW_SCORE = True
 
 
 def prompter(prompt_type: str, prompt: str, choices: list[str] = None,  options: dict = None):
@@ -113,9 +113,9 @@ class Chapter:
             # Check if the answer is correct
             if answers == question.correct_answers:
                 self.score += len(question.correct_answers)
-                if show_score:
+                if SHOW_SCORE:
                     print(colored("Correct!", "green"))
-            elif show_score:
+            elif SHOW_SCORE:
                 print(colored("Incorrect!", "red"))
             print()
 
@@ -308,20 +308,20 @@ def search_questions(quiz_chapters: list[Chapter], question_prompt: str):
 if __name__ == "__main__":
     question_path = "questions.txt"  # pylint: disable=invalid-name
     # Check for questions file
-    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):  # default file not found
         print(colored("\n\tNo questions file found!\n", "red"))
         question_path = prompter("input", "Enter file name")
-        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):  # input file not found
             print(colored(
                 f"\n\tNo file named {question_path} found (include file extension)!\n", "red"))
             sys.exit()
 
-    quiz: Union[Quiz, None] = None
+    quiz = get_save()  # get previous save
 
-    quiz = get_save()
     if "--reset" in sys.argv or "-R" in sys.argv and quiz:
         quiz.reset()
     if not quiz:
+        # Create quiz object from questions file
         quiz = Quiz(get_chapters(question_path))
     if "--update" in sys.argv or "-U" in sys.argv:
         quiz.chapters = get_chapters(question_path)
