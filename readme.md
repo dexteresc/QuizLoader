@@ -13,6 +13,7 @@ These questions and chapters are fetched from a `.txt` file (default name: `ques
 
 ![image](https://user-images.githubusercontent.com/63741680/159105089-796b8f4e-8ec8-4e83-9a2f-bc3023cb7069.png)
 
+## Text-file format
 
 Use this format in the text file:
 
@@ -25,7 +26,11 @@ Use this format in the text file:
 * [alpha]. Answer
 * [alpha]. Answer
 
+The files default name is `questions.txt`.
+
 ---
+
+## Command Line Arguments
 
 Use `--update` to update the questions.
 
