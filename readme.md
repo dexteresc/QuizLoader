@@ -6,8 +6,13 @@ These questions and chapters are fetched from a `.txt` file (default name: `ques
 ## Features
 
 - Score tracking
-- Saves progress
-- Adapts to questions with multiple correct answers
+- Progress saving
+- Chapter select
+
+## Supports
+
+- Multi-answer questions
+- Multi-answer questions with multiple correct answers
 
 ## Screenshots
 
@@ -27,8 +32,6 @@ Use this format in the text file:
 * [alpha]. Answer
 
 The files default name is `questions.txt`.
-
----
 
 ## Command Line Arguments
 
