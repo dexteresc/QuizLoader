@@ -163,7 +163,6 @@ class Quiz:
             choice: int = prompter("list", "Select chapter: ", [
                 f"Chapter {chapter.number} ({chapter.score}/{chapter.max_score})" for chapter in self.chapters],
                 options={"filter": lambda choice: int(choice.split(" ")[1])})[0]
-            print("choice:", choice)
             self.current_chapter = choice  # set current chapter
             self.chapters[choice-1].run()  # run chapter
 
