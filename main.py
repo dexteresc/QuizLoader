@@ -1,47 +1,70 @@
 import atexit
-from typing import Union
 import os
 import pickle
-import re
 import sys
+from typing import Union
+
 from termcolor import colored
+from InquirerPy import prompt as prompt_inquirer
+
+show_score = True
 
 
-def enter(prompt: str) -> str:
+def prompter(prompt_type: str, prompt: str, choices: list[str] = None,  options: dict = None):
+    """Prompt user with InquirerPy
+
+    Args:
+        type (str): Type of prompt
+        prompt (str): Prompt text
+        choices (list[str], optional): List of choices. Defaults to None.
+        options (dict, optional): Options for InquirerPy. Defaults to None.
+    """
     try:
-        res = input("\n\n{}> ".format(prompt + " "))
-        if res == "exit":
-            exit(0)
-        else:
-            return res
+        question = {
+            "type": prompt_type,
+            "message": prompt,
+        }
+        if choices:
+            question["choices"] = choices
+        if options:
+            question.update(options)
+        return prompt_inquirer(question)
     except KeyboardInterrupt:
-        exit(0)
+        sys.exit(0)
 
 
 class Question:
+    """Question class that contains a prompt, a list of answers, and a list of correct answers"""
+
     def __init__(self, prompt: str, answers: list[str], correct_answers: list[str]):
         self.prompt = prompt
         self.answers = answers
         self.correct_answers = correct_answers
 
-    def print_question(self):
-        print(self.prompt)
-        for i in range(len(self.answers)):
-            print(self.answers[i])
+    def check_answer(self, answer: list[str]) -> bool:
+        """Check if the answer is correct
 
-    def check_answer(self, answer):
-        if isinstance(self.correct_answers, list):
-            if answer in self.correct_answers:
-                return True
-            else:
-                return False
+        Args:
+            answer (str): User input
+
+        Returns:
+            bool: True if correct, False if incorrect
+        """
+        return answer in self.correct_answers
+
+    def print_question(self) -> None:
+        """Print the question"""
+        print(colored(self.prompt, "green"))
+        for i, answer in enumerate(self.answers):
+            print(f"{i + 1}. {answer}")
 
 
 class Chapter:
+    """Chapter class that contains the chapter number, a list of questions, and a list of results"""
+
     def __init__(self, number: int, questions: list[Question]):
         self.number = number
         self.questions = questions
-        self.result = []
         self.score = 0
         self.current_question: int = 0
         self.max_score = 0
@@ -50,7 +73,13 @@ class Chapter:
             self.max_score += len(question.correct_answers)
 
     def run(self, current: Union[int, bool] = 0):
-        print("\n\n\tWelcome to Chapter {}!\n".format(self.number))
+        """Runs a quiz for the chapter
+
+        Args:
+            current (Union[int, bool], optional): If quiz should start at current question or not.
+            Defaults to No.
+        """
+        print(f"\n\n\tWelcome to Chapter {self.number}!\n")
         if isinstance(current, int):
             from_question = current
         elif current:
@@ -58,26 +87,44 @@ class Chapter:
         else:
             from_question = 0
 
-        for question in (self.questions[from_question:]):
-            self.current_question = self.questions.index(question)
-            print(colored("\n\n" + question.prompt, attrs=["bold"]))
-            for answer in question.answers:
-                print(colored("> {}".format(answer)))
-            entered_answers = re.split(" | ,", enter(
-                f'Enter your answer ({len(question.correct_answers)})').lower().strip())
-            for answer in entered_answers:
-                print(entered_answers)
-                if question.check_answer(answer):
-                    print(colored("\n\nCorrect!", "green"))
-                    self.result.append([question, answer, True])
-                    self.score += 1
-                else:
-                    print(colored("\n\nIncorrect!", "red"))
-                    self.result.append([question, answer, False])
-            print(colored("\n\nYour score: {}/{}".format(self.score,
-                  self.max_score), self.determine_color()))
+        for question in self.questions[from_question:]:
+            if len(question.correct_answers) > 1:
+                try:
+                    answers = prompter("checkbox", question.prompt, question.answers, {
+                        "validate": lambda answer, ca_len=len(question.correct_answers):
+                            len(answer) == ca_len,
+                        "invalid_message":
+                            f"Please select {len(question.correct_answers)} answers",
+                        "transformer": lambda answers: "\n" + "\n".join(answers),
+                        "filter": lambda answers: [answer[0] for answer in answers]
+                    })[0]
+                except KeyboardInterrupt:
+                    sys.exit(0)
+            else:
+                try:
+                    answers = prompter(
+                        "list", question.prompt, question.answers,
+                        options={
+                            "transformer": lambda answer: "\n" + answer,
+                            "filter": lambda answer: answer[0]
+                        })[0]
+                except KeyboardInterrupt:
+                    sys.exit(0)
+            # Check if the answer is correct
+            if answers == question.correct_answers:
+                self.score += len(question.correct_answers)
+                if show_score:
+                    print(colored("Correct!", "green"))
+            elif show_score:
+                print(colored("Incorrect!", "red"))
+            print()
 
     def determine_color(self):
+        """Determines the color of the score
+
+        Returns:
+            str: Color of the score
+        """
         if self.score == self.max_score:
             return "green"
         elif self.score > 0:
@@ -87,58 +134,60 @@ class Chapter:
 
 
 class Quiz:
+    """Quiz class that contains a list of chapters,
+    current chapter, name of the quiz taker, and total score"""
 
     def __init__(self, chapters: list[Chapter]):
         self.quiz_taker = ""
         self.chapters = chapters
         self.current_chapter = 0
-        self.current_question = 0
         self.score = 0
 
     def run(self):
+        """Runs the quiz"""
         atexit.register(quiz.save)
         if not self.quiz_taker:
-            print(colored("What's your name?", "blue"))
-            self.quiz_taker = colored(enter("Name"), "blue")
+            self.quiz_taker = prompter("input", "What's your name?", options={
+                "validate": lambda name: name != "" and len(name) < 20})[0]
         print(
-            f"\n\n\tWelcome {self.quiz_taker} to the quiz! \n\tYour score is saved upon exit.\n\n")
+            f"\n\n\tWelcome {colored(self.quiz_taker, 'magenta')} to the quiz! \n\tYour score is saved upon exit.\n\n")
 
         if self.current_chapter != 0:  # Promt user to continue from last chapter
-            print(colored("\n\n\tPick up where you left off? (Chapter {})\n\n".format(
-                self.current_chapter), "green"))
-            choice = enter("y/n")
-            if choice == "y":
+            pick_up = prompter(
+                "confirm", "Continue from last chapter?")[0]
+
+            if pick_up:
                 self.chapters[self.current_chapter].run(True)  # Run chapter
 
         while True:
-            print(colored("\n\nSelect chapter: ", attrs=["bold"]))
-            for chapter in self.chapters:
-
-                print(
-                    colored(f"> Chapter {chapter.number}", chapter.determine_color()))
-            choice = enter("Chapter")
-            try:
-                choice = int((re.findall(r'\d+', choice)[0])) - 1
-            except TypeError:
-                continue
-            # run chapter
-            if choice > len(self.chapters) or choice < 0:
-                print(colored("\n\tInvalid chapter number!\n", "red"))
-                continue
-
+            choice: int = prompter("list", "Select chapter: ", [
+                f"Chapter {chapter.number} ({chapter.score}/{chapter.max_score})" for chapter in self.chapters],
+                options={"filter": lambda choice: int(choice.split(" ")[1])})[0]
+            print("choice:", choice)
             self.current_chapter = choice  # set current chapter
-            self.chapters[choice].run()  # run chapter
+            self.chapters[choice-1].run()  # run chapter
 
     def save(self):
-        pickle.dump(self, open("quiz.p", "wb"))  # save quiz
+        """Saves the quiz to a file"""
+        with open("quiz.p", "wb") as file:
+            pickle.dump(self, file)
         print(colored("\n\n\tYour score has been saved.\n\n", "green"))
 
     def stop(self):
-        # To be implemented
-        pass
+        """To be implemented"""
+
+    def reset(self):
+        """Resets the quiz"""
+        for chapter in self.chapters:
+            chapter.score = 0
+            chapter.current_question = 0
+            chapter.result = []
+        self.score = 0
+        self.quiz_taker = ""
+        self.current_chapter = 0
 
 
-def getChapters(file_name: str):
+def get_chapters(file_name: str):
     """Fetch chapters and questions from a text file
 
     Args:
@@ -148,8 +197,8 @@ def getChapters(file_name: str):
         list[Chapter]: List of Chapter objects
     """
     chapter_list: list[Chapter] = []
-    with open(file_name, "r") as f:
-        lines = f.readlines()
+    with open(file_name, "r", encoding="utf-8") as file:
+        lines = file.readlines()
 
         chapter_questions: list[Question] = []
         question_prompt: str = ""
@@ -157,14 +206,11 @@ def getChapters(file_name: str):
         question_correct_answers: list[str] = []
 
         question_active: bool = False
-        empty_line_count = 0
         line_count = 0
         for line in lines:
             line_count += 1
             # if line is empty continue
             if line == "\n":
-                empty_line_count += 1
-                print("empty line {}".format(empty_line_count))
                 continue
 
             if line.startswith("Chapter"):
@@ -194,7 +240,7 @@ def getChapters(file_name: str):
                 question_active = False
                 print("New answer")
                 if line[0].isupper():
-                    question_correct_answers.append(line[0])
+                    question_correct_answers.append(line[0].lower())
                     line = line[0].lower() + line[1:]
                 question_answers.append(line)
             elif question_active:
@@ -204,47 +250,42 @@ def getChapters(file_name: str):
         if chapter_questions:
             chapter_list.append(Chapter(num, chapter_questions))
         # print out chapters and questions
-        print("\nLines: {}".format(line_count))
-        print("Chapters {}\n\n".format(len(chapter_list)))
+        print(f"\nLines: {line_count}")
+        print(f"Chapters {len(chapter_list)}\n\n")
         print(colored("Loaded successfully!\n\n", "green", attrs=["bold"]))
-        with open("chapters.p", "wb") as f:
-            pickle.dump(chapter_list, f)
+
         return chapter_list
 
 
-def getSave():
+def get_save():
     """Get previous save
 
     Returns:
         Quiz | None: Quiz object or None if no save found
     """
     if os.path.exists("quiz.p"):
-        with open("quiz.p", "rb") as f:
-            return pickle.load(f)
-
-
-def retrieveChapters():
-    """Fetches chapters from a pickle file or creates a new one
-
-    Returns:
-        list[Chapter]: List of Chapter objects
-    """
-    if os.path.exists("chapters.p"):
-        with open("chapters.p", "rb") as f:
-            return pickle.load(f)
-    elif os.path.exists("questions.txt"):
-        return getChapters("questions.txt")
+        with open("quiz.p", "rb") as file:
+            try:
+                return pickle.load(file)
+            except (pickle.UnpicklingError, EOFError):
+                print(colored("\n\n\tError: Save file is corrupted\n\n",
+                      "red", attrs=["bold"]))
+                return None
     else:
-        print(
-            colored("No chapters or questions found. \nMake sure questions.txt is availible.", "red"))
-        exit(1)
+        return None
 
 
-def searchQuestion(chapters: list[Chapter], question_prompt: str):
+def search_questions(quiz_chapters: list[Chapter], question_prompt: str):
+    """Search for a question in a list of chapters
+
+    Args:
+        chapters (list[Chapter]): List of Chapter objects
+        question_prompt (str): Question prompt
+    """
     found_questions = []
-    print(colored("Searching for: {}".format(
-        colored(question_prompt, "magenta")), "blue"))
-    for chapter in chapters:
+    print(
+        colored(f"Searching for: {colored(question_prompt, 'magenta')}", 'blue'))
+    for chapter in quiz_chapters:
         for question in chapter.questions:
             if question_prompt.lower() in question.prompt.lower():
                 found_questions.append({
@@ -254,7 +295,7 @@ def searchQuestion(chapters: list[Chapter], question_prompt: str):
     if len(found_questions) == 0:
         print(colored("No questions found!", "red"))
     else:
-        print(colored("Found {} questions:".format(len(found_questions)), "green"))
+        print(colored(f"Found {len(found_questions)} questions:", "green"))
         for question in found_questions:
             print(colored(f"\nChapter {question['chapter']}", "green"))
             print(f"{question['question'].prompt}")
@@ -262,27 +303,34 @@ def searchQuestion(chapters: list[Chapter], question_prompt: str):
                 print(colored(f"\t{answer}", "yellow"))
             print(colored(
                 f'Correct answers: {" ".join(question["question"].correct_answers)}', "green"))
-        print
-    return found_questions
 
 
 if __name__ == "__main__":
-    if "--reset" in sys.argv:
-        os.path.exists("quiz.p") and os.remove("quiz.p")
-        os.path.exists("chapters.p") and os.remove("chapters.p")
-    if "--update" in sys.argv:
-        chapters = getChapters("questions.txt")
+    question_path = "questions.txt"  # pylint: disable=invalid-name
+    # Check for questions file
+    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+        print(colored("\n\tNo questions file found!\n", "red"))
+        question_path = prompter("input", "Enter file name")
+        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+            print(colored(
+                f"\n\tNo file named {question_path} found (include file extension)!\n", "red"))
+            sys.exit()
 
-    quiz = getSave()
+    quiz: Union[Quiz, None] = None
+
+    quiz = get_save()
+    if "--reset" in sys.argv or "-R" in sys.argv and quiz:
+        quiz.reset()
     if not quiz:
-        chapters = retrieveChapters()
-        quiz = Quiz(chapters)
+        quiz = Quiz(get_chapters(question_path))
+    if "--update" in sys.argv or "-U" in sys.argv:
+        quiz.chapters = get_chapters(question_path)
     if "--search" in sys.argv or "-S" in sys.argv:
         if len(sys.argv) != 3:
             print(colored("\n\n\tCan't search argument", "red"))
-            exit(1)
+            sys.exit(1)
         else:
-            searchQuestion(quiz.chapters, sys.argv[2])
-            exit(0)
+            search_questions(quiz.chapters, sys.argv[2])
+            sys.exit(0)
 
     quiz.run()
