@@ -150,7 +150,8 @@ class Quiz:
             self.quiz_taker = prompter("input", "What's your name?", options={
                 "validate": lambda name: name != "" and len(name) < 20})[0]
         print(
-            f"\n\n\tWelcome {colored(self.quiz_taker, 'magenta')} to the quiz! \n\tYour score is saved upon exit.\n\n")
+            f"\n\n\tWelcome {colored(self.quiz_taker, 'magenta')} to the quiz! " +
+            "\n\tYour score is saved upon exit.\n\n")
 
         if self.current_chapter != 0:  # Promt user to continue from last chapter
             pick_up = prompter(
@@ -160,9 +161,13 @@ class Quiz:
                 self.chapters[self.current_chapter].run(True)  # Run chapter
 
         while True:
-            choice: int = prompter("list", "Select chapter: ", [
-                f"Chapter {chapter.number} ({chapter.score}/{chapter.max_score})" for chapter in self.chapters],
-                options={"filter": lambda choice: int(choice.split(" ")[1])})[0]
+            choice: int = prompter(
+                "list", "Select chapter: ",
+                [f"Chapter {chapter.number} ({chapter.score}/{chapter.max_score})"
+                 for chapter in self.chapters],
+                options={
+                    "filter": lambda choice: int(choice.split(" ")[1])
+                })[0]
             self.current_chapter = choice  # set current chapter
             self.chapters[choice-1].run()  # run chapter
 
@@ -307,10 +312,12 @@ def search_questions(quiz_chapters: list[Chapter], question_prompt: str):
 if __name__ == "__main__":
     question_path = "questions.txt"  # pylint: disable=invalid-name
     # Check for questions file
-    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):  # default file not found
+    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+        # default file not found
         print(colored("\n\tNo questions file found!\n", "red"))
         question_path = prompter("input", "Enter file name")
-        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):  # input file not found
+        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+            # input file not found
             print(colored(
                 f"\n\tNo file named {question_path} found (include file extension)!\n", "red"))
             sys.exit()
