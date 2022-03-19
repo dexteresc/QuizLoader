@@ -4,7 +4,9 @@ A scripts that let's you play a quiz on a series of multi-answer questions divid
 These questions and chapters are fetched from a `.txt` file in a specified format.
 
 ## Quickstart
+
 ### Requires
+
 - **Python 3.9** or above
 
 ---
@@ -39,8 +41,8 @@ python3 main.py
 - Answers need to start with the option, which needs to be a lower-case alpha (a-z).  
   The correct answer is an UPPER-CASE alpha.
 
-
 ### Example
+
 ```plaintext
 Chapter 1 
 1. Which of the following protocols are examples of TCP/IP transport layer protocols? (Choose two answers.)
