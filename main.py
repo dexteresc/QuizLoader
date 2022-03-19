@@ -40,6 +40,7 @@ class Question:
         self.prompt = prompt
         self.answers = answers
         self.correct_answers = correct_answers
+        self.answered_correctly = False
 
     def check_answer(self, answer: list[str]) -> bool:
         """Check if the answer is correct
@@ -50,7 +51,16 @@ class Question:
         Returns:
             bool: True if correct, False if incorrect
         """
-        return answer in self.correct_answers
+        if answer in self.correct_answers:
+            self.answered_correctly = True
+            if SHOW_SCORE:
+                print(colored("Correct!", "green"))
+            return True
+
+        self.answered_correctly = False
+        if SHOW_SCORE:
+            print(colored("Incorrect!", "red"))
+        return False
 
     def print_question(self) -> None:
         """Print the question"""
@@ -65,8 +75,8 @@ class Chapter:
     def __init__(self, number: int, questions: list[Question]):
         self.number = number
         self.questions = questions
-        self.score = 0
         self.current_question: int = 0
+        self.score = 0
         self.max_score = 0
 
         for question in questions:
@@ -88,6 +98,7 @@ class Chapter:
             from_question = 0
 
         for question in self.questions[from_question:]:
+            self.current_question += 1
             if len(question.correct_answers) > 1:
                 try:
                     answers = prompter("checkbox", question.prompt, question.answers, {
@@ -111,26 +122,15 @@ class Chapter:
                 except KeyboardInterrupt:
                     sys.exit(0)
             # Check if the answer is correct
-            if answers == question.correct_answers:
-                self.score += len(question.correct_answers)
-                if SHOW_SCORE:
-                    print(colored("Correct!", "green"))
-            elif SHOW_SCORE:
-                print(colored("Incorrect!", "red"))
+            question.check_answer(answers)
             print()
 
-    def determine_color(self):
-        """Determines the color of the score
-
-        Returns:
-            str: Color of the score
-        """
-        if self.score == self.max_score:
-            return "green"
-        elif self.score > 0:
-            return "yellow"
-        else:
-            return "red"
+    def calculate_score(self):
+        """Calculate score"""
+        for question in self.questions:
+            if question.answered_correctly:
+                self.score += 1
+        return self.score
 
 
 class Quiz:
@@ -141,12 +141,13 @@ class Quiz:
         self.quiz_taker = ""
         self.chapters = chapters
         self.current_chapter = 0
-        self.score = 0
 
     def run(self):
         """Runs the quiz"""
+
         atexit.register(quiz.save)
-        if not self.quiz_taker:
+
+        if not self.quiz_taker:  # no name is set
             self.quiz_taker = prompter("input", "What's your name?", options={
                 "validate": lambda name: name != "" and len(name) < 20})[0]
         print(
@@ -163,13 +164,13 @@ class Quiz:
         while True:
             choice: int = prompter(
                 "list", "Select chapter: ",
-                [f"Chapter {chapter.number} ({chapter.score}/{chapter.max_score})"
+                [f"Chapter {chapter.number} ({chapter.calculate_score()}/{chapter.max_score})"
                  for chapter in self.chapters],
                 options={
                     "filter": lambda choice: int(choice.split(" ")[1])
-                })[0]
+                })[0] - 1
             self.current_chapter = choice  # set current chapter
-            self.chapters[choice-1].run()  # run chapter
+            self.chapters[choice].run()  # run chapter
 
     def save(self):
         """Saves the quiz to a file"""
@@ -186,7 +187,6 @@ class Quiz:
             chapter.score = 0
             chapter.current_question = 0
             chapter.result = []
-        self.score = 0
         self.quiz_taker = ""
         self.current_chapter = 0
 
@@ -261,7 +261,7 @@ def get_chapters(file_name: str):
         return chapter_list
 
 
-def get_save():
+def get_save() -> Union[Quiz, None]:
     """Get previous save
 
     Returns:
@@ -311,32 +311,41 @@ def search_questions(quiz_chapters: list[Chapter], question_prompt: str):
 
 if __name__ == "__main__":
     question_path = "questions.txt"  # pylint: disable=invalid-name
-    # Check for questions file
-    if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
-        # default file not found
-        print(colored("\n\tNo questions file found!\n", "red"))
-        question_path = prompter("input", "Enter file name")
-        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
-            # input file not found
-            print(colored(
-                f"\n\tNo file named {question_path} found (include file extension)!\n", "red"))
-            sys.exit()
+
+    if "--help" in sys.argv:
+        print(colored("\n\n\tQuiz Maker\n\n", "green", attrs=["bold"]))
+        print(colored("\tUsage: main.py [options]\n\n", "green"))
+        print(colored("\tOptions:\n\n", "green"))
+        print(colored("\t--new\t\t\t\tCreates a new quiz", "green"))
+        print(
+            colored("\t--search [search_term]\t\t\t\tSearch for a question", "green"))
+        print(colored("\t--reset\t\t\t\tResets the save", "green"))
+        sys.exit(0)
+    if "--new" in sys.argv:
+        if os.path.exists("quiz.p"):
+            os.remove("quiz.p")
 
     quiz = get_save()  # get previous save
 
     if "--reset" in sys.argv or "-R" in sys.argv and quiz:
         quiz.reset()
     if not quiz:
+        # Check for questions file
+        if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+            # default file not found
+            print(colored("\n\tNo questions file found!\n", "red"))
+            question_path = prompter("input", "Enter file name")
+            if (not os.path.exists(question_path)) or (not os.path.isfile(question_path)):
+                # input file not found
+                print(colored(
+                    f"\n\tNo file named {question_path} found (include file extension)!\n", "red"))
+                sys.exit()
         # Create quiz object from questions file
         quiz = Quiz(get_chapters(question_path))
+    if "--search" == sys.argv[1] or "-S" == sys.argv[1]:
+        search_questions(quiz.chapters, " ".join(sys.argv[2:]))
+        sys.exit(0)
     if "--update" in sys.argv or "-U" in sys.argv:
         quiz.chapters = get_chapters(question_path)
-    if "--search" in sys.argv or "-S" in sys.argv:
-        if len(sys.argv) != 3:
-            print(colored("\n\n\tCan't search argument", "red"))
-            sys.exit(1)
-        else:
-            search_questions(quiz.chapters, sys.argv[2])
-            sys.exit(0)
 
     quiz.run()
