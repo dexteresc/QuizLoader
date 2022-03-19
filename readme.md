@@ -34,6 +34,12 @@ python3 main.py
 
 ## Text-file format
 
+- Chapters need to start with "Chapter" followed by a number.  
+- Questions should start with a number.  
+- Answers need to start with the option, which needs to be a lower-case alpha (a-z).  
+  The correct answer is an UPPER-CASE alpha.
+
+
 ### Example
 ```plaintext
 Chapter 1 
@@ -50,7 +56,9 @@ The files default name is `questions.txt`.
 
 ## Command Line Arguments
 
-Use `--update` to update the questions.
+Use `--help` to view availible command line arguments.
+
+Use `--new` to overwrite current quiz with a new quiz (from text-file).
 
 Use `--reset` to remove all save-files.
 
