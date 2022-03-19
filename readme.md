@@ -32,12 +32,17 @@ python3 main.py
 
 ## Text-file format
 
-Use this format in the text file:
-
-Chapter *n*  
-  *n*. --Question prompt text--  
-  *a-z*. --Answer text--  
-  *a-z*. --Answer--  
+### Example
+```plaintext
+Chapter 1 
+1. Which of the following protocols are examples of TCP/IP transport layer protocols? (Choose two answers.)
+a. Ethernet
+b. HTTP
+c. IP
+D. UDP
+e. SMTP
+F. TCP
+```
 
 The files default name is `questions.txt`.
 
