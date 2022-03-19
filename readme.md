@@ -16,3 +16,5 @@ Use the format:
 Use `--update` to update the questions.
 
 Use `--reset` to remove all save-files.
+
+Use `--search` to search through all saved questions
