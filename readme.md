@@ -1,7 +1,19 @@
 # Quiz creator, loader and saver
 
-A scripts that let's you play a quiz on a series of multi-answer questions divided up into chapters. 
-These questions and chapters are fetched from a `.txt` file (default name: `questions.txt`) in a specified format.
+A scripts that let's you play a quiz on a series of multi-answer questions divided up into chapters.  
+These questions and chapters are fetched from a `.txt` file in a specified format.
+
+## Quickstart
+### Requires
+- Python 3.9>
+
+```shell
+# Install necessary modules
+pip3 install InquirerPy termcolor
+
+# Run
+python3 main.py
+```
 
 ## Features
 
@@ -21,16 +33,12 @@ These questions and chapters are fetched from a `.txt` file (default name: `ques
 ## Text-file format
 
 Use this format in the text file:
-
-[number] : int
-
-[alpha] : str
-
-* Chapter [number]
-* [number]. Question promt
-* [alpha]. Answer
-* [alpha]. Answer
-
+```
+Chapter *number*
+  *number*. Question promt
+  *alpha*. Answer
+  *alpha*. Answer
+```
 The files default name is `questions.txt`.
 
 ## Command Line Arguments
