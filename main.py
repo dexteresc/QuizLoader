@@ -51,7 +51,7 @@ class Question:
         Returns:
             bool: True if correct, False if incorrect
         """
-        if answer in self.correct_answers:
+        if answer == self.correct_answers:
             self.answered_correctly = True
             if SHOW_SCORE:
                 print(colored("Correct!", "green"))
@@ -154,14 +154,16 @@ class Quiz:
             f"\n\n\tWelcome {colored(self.quiz_taker, 'magenta')} to the quiz! " +
             "\n\tYour score is saved upon exit.\n\n")
 
+        print(self.current_chapter)
         if self.current_chapter != 0:  # Promt user to continue from last chapter
             pick_up = prompter(
                 "confirm", "Continue from last chapter?")[0]
 
             if pick_up:
-                self.chapters[self.current_chapter].run(True)  # Run chapter
+                self.chapters[self.current_chapter-1].run(True)  # Run chapter
 
         while True:
+            self.current_chapter = 0
             choice: int = prompter(
                 "list", "Select chapter: ",
                 [f"Chapter {chapter.number} ({chapter.calculate_score()}/{chapter.max_score})"
@@ -169,7 +171,7 @@ class Quiz:
                 options={
                     "filter": lambda choice: int(choice.split(" ")[1])
                 })[0] - 1
-            self.current_chapter = choice  # set current chapter
+            self.current_chapter = choice+1  # set current chapter
             self.chapters[choice].run()  # run chapter
 
     def save(self):
@@ -342,7 +344,7 @@ if __name__ == "__main__":
                 sys.exit()
         # Create quiz object from questions file
         quiz = Quiz(get_chapters(question_path))
-    if "--search" == sys.argv[1] or "-S" == sys.argv[1]:
+    if "--search" in sys.argv or "-S" in sys.argv:
         search_questions(quiz.chapters, " ".join(sys.argv[2:]))
         sys.exit(0)
 
