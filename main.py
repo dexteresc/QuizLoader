@@ -59,11 +59,12 @@ class Question:
 
         self.answered_correctly = False
         if SHOW_SCORE:
-            print(colored("Incorrect!", "red"))
+            print(colored("Incorrect!", "red"),
+                  f"Correct answer: {' '.join(self.correct_answers)}")
         return False
 
     def print_question(self) -> None:
-        """Print the question"""
+        """To be implemented"""
         print(colored(self.prompt, "green"))
         for i, answer in enumerate(self.answers):
             print(f"{i + 1}. {answer}")
@@ -90,6 +91,7 @@ class Chapter:
             Defaults to No.
         """
         print(f"\n\n\tWelcome to Chapter {self.number}!\n")
+
         if isinstance(current, int):
             from_question = current
         elif current:
@@ -99,6 +101,7 @@ class Chapter:
 
         for question in self.questions[from_question:]:
             self.current_question += 1
+            # TODO To be moved to Question class
             if len(question.correct_answers) > 1:
                 try:
                     answers = prompter("checkbox", question.prompt, question.answers, {
@@ -107,18 +110,16 @@ class Chapter:
                         "invalid_message":
                             f"Please select {len(question.correct_answers)} answers",
                         "transformer": lambda answers: "\n" + "\n".join(answers),
-                        "filter": lambda answers: [answer[0] for answer in answers]
                     })[0]
                 except KeyboardInterrupt:
                     sys.exit(0)
             else:
                 try:
-                    answers = prompter(
+                    answers = [prompter(
                         "list", question.prompt, question.answers,
                         options={
                             "transformer": lambda answer: "\n" + answer,
-                            "filter": lambda answer: answer[0]
-                        })[0]
+                        })[0]]
                 except KeyboardInterrupt:
                     sys.exit(0)
             # Check if the answer is correct
@@ -127,8 +128,9 @@ class Chapter:
 
     def calculate_score(self):
         """Calculate score"""
+
         for question in self.questions:
-            if question.answered_correctly:
+            if question.answered_correctly is True:
                 self.score += 1
         return self.score
 
@@ -154,7 +156,6 @@ class Quiz:
             f"\n\n\tWelcome {colored(self.quiz_taker, 'magenta')} to the quiz! " +
             "\n\tYour score is saved upon exit.\n\n")
 
-        print(self.current_chapter)
         if self.current_chapter != 0:  # Promt user to continue from last chapter
             pick_up = prompter(
                 "confirm", "Continue from last chapter?")[0]
@@ -189,6 +190,8 @@ class Quiz:
             chapter.score = 0
             chapter.current_question = 0
             chapter.result = []
+            for question in chapter.questions:
+                question.answered_correctly = False
         self.quiz_taker = ""
         self.current_chapter = 0
 
@@ -210,17 +213,14 @@ def get_chapters(file_name: str):
         question_prompt: str = ""
         question_answers: list[str] = []
         question_correct_answers: list[str] = []
-
         question_active: bool = False
-        line_count = 0
+
         for line in lines:
-            line_count += 1
             # if line is empty continue
             if line == "\n":
                 continue
 
             if line.startswith("Chapter"):
-                print("New chapter")
                 if chapter_questions:
                     chapter_list.append(
                         Chapter(num, chapter_questions))
@@ -231,7 +231,6 @@ def get_chapters(file_name: str):
                     print("Error: Chapter number must be a number")
                     num = 0
             elif line[0].isdigit() and (line[1] == "." or line[2] == "."):
-                print("New question")
                 if question_answers and question_prompt:  # new question
                     chapter_questions.append(
                         Question(question_prompt, question_answers, question_correct_answers))
@@ -244,9 +243,8 @@ def get_chapters(file_name: str):
             elif line[0].isalpha() and line[1] == ".":
                 line = line.strip()
                 question_active = False
-                print("New answer")
                 if line[0].isupper():
-                    question_correct_answers.append(line[0].lower())
+                    question_correct_answers.append(line[0].lower() + line[1:])
                     line = line[0].lower() + line[1:]
                 question_answers.append(line)
             elif question_active:
@@ -255,10 +253,12 @@ def get_chapters(file_name: str):
                 print(line)
         if chapter_questions:
             chapter_list.append(Chapter(num, chapter_questions))
-        # print out chapters and questions
-        print(f"\nLines: {line_count}")
-        print(f"Chapters {len(chapter_list)}\n\n")
-        print(colored("Loaded successfully!\n\n", "green", attrs=["bold"]))
+        # Print results
+        print(f"Chapters: {len(chapter_list)}")
+        print(
+            f'Questions: {sum([len(chapter.questions) for chapter in chapter_list])}')
+
+        print(colored("\nLoaded successfully!\n\n", "green", attrs=["bold"]))
 
         return chapter_list
 
@@ -326,6 +326,7 @@ if __name__ == "__main__":
     if "--new" in sys.argv:
         if os.path.exists("quiz.p"):
             os.remove("quiz.p")
+            print(colored("\n\n\tSave file deleted\n\n", "green"))
 
     quiz = get_save()  # get previous save
 
