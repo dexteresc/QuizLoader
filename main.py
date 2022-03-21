@@ -223,6 +223,12 @@ def get_chapters(file_name: str):
 
             if line.startswith("Chapter"):
                 if chapter_questions:
+                    if question_answers and question_prompt:
+                        chapter_questions.append(
+                            Question(question_prompt, question_answers, question_correct_answers))  # Bodge
+                        question_prompt = ""
+                        question_answers = []
+                        question_correct_answers = []
                     chapter_list.append(
                         Chapter(num, chapter_questions))
                     chapter_questions = []
@@ -235,6 +241,7 @@ def get_chapters(file_name: str):
                 if question_answers and question_prompt:  # new question
                     chapter_questions.append(
                         Question(question_prompt, question_answers, question_correct_answers))
+
                     question_prompt = ""
                     question_answers = []
                     question_correct_answers = []
@@ -256,8 +263,6 @@ def get_chapters(file_name: str):
             chapter_list.append(Chapter(num, chapter_questions))
         # Print results
         print(f"Chapters: {len(chapter_list)}")
-        print(
-            f'Questions: {sum([len(chapter.questions) for chapter in chapter_list])}')
 
         print(colored("\nLoaded successfully!\n\n", "green", attrs=["bold"]))
 
