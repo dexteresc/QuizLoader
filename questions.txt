@@ -113,7 +113,7 @@ Chapter 3
 a. Flag
 B. Type
 c. Address
-d. FCS
+D. FCS
 
 2. Two routers, R1 and R2, connect using an Ethernet over MPLS service. The service provides point-to-point service between these two routers only, as a Layer 2 Ethernet service. Which of the following are the most likely to be true about this WAN? (Choose two answers.)
 a. R1 will connect to a physical Ethernet link, with the other end of the cable connected to R2.

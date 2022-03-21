@@ -78,10 +78,7 @@ class Chapter:
         self.questions = questions
         self.current_question: int = 0
         self.score = 0
-        self.max_score = 0
-
-        for question in questions:
-            self.max_score += len(question.correct_answers)
+        self.max_score = len(questions)
 
     def run(self, current: Union[int, bool] = 0):
         """Runs a quiz for the chapter
@@ -92,6 +89,9 @@ class Chapter:
         """
         print(f"\n\n\tWelcome to Chapter {self.number}!\n")
 
+        # BUG - Scoring system still not working
+        # BUG - Fix current-question issue
+        # TODO - Add a way to skip a question
         if isinstance(current, int):
             from_question = current
         elif current:
@@ -101,7 +101,7 @@ class Chapter:
 
         for question in self.questions[from_question:]:
             self.current_question += 1
-            # TODO To be moved to Question class
+            # TODO - To be moved to Question class
             if len(question.correct_answers) > 1:
                 try:
                     answers = prompter("checkbox", question.prompt, question.answers, {
@@ -128,10 +128,11 @@ class Chapter:
 
     def calculate_score(self):
         """Calculate score"""
-
+        score = 0
         for question in self.questions:
             if question.answered_correctly is True:
-                self.score += 1
+                score += 1
+        self.score = score
         return self.score
 
 
