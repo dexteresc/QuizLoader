@@ -63,5 +63,3 @@ Use `--help` to view availible command line arguments.
 Use `--new` to overwrite current quiz with a new quiz (from text-file).
 
 Use `--reset` to remove all save-files.
-
-Use `--search` to search through all saved questions.
